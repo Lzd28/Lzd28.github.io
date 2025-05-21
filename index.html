@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DailyMova</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1 class="title">DailyMova</h1>
+    <p class="subtitle">your daily dose of motivation</p>
+
+    <div id="container">
+        <form id="movaForm" aria-describedby="form-desc" novalidate>
+            <div id="form-desc" class="sr-only">Masukkan nama dan pilih perasaanmu untuk mendapatkan motivasi harian</div>
+            <label for="nameInput">Nama Anda</label>
+            <input type="text" id="nameInput" placeholder="tulis nama mu donk" required autocomplete="off" aria-required="true" />
+
+            <label for="feelingInput">Bagaimana perasaanmu hari ini?</label>
+            <select id="feelingInput" required aria-required="true">
+                <option value="" disabled selected>Pilih perasaanmu</option>
+                <option value="semangat">Semangat</option>
+                <option value="capek">Capek</option>
+                <option value="sedih">Sedih</option>
+                <option value="grogi">Grogi</option>
+                <option value="marah">Marah</option>
+            </select>
+
+            <button type="submit" aria-label="Klik untuk jadi versi terbaikmu">Klik untuk jadi versi terbaikmu</button>
+        </form>
+
+        <div id="motivationNote" role="region" aria-live="polite" aria-label="Catatan motivasi harian"></div>
+    </div>
+
+    <p><a href="about.html">Tentang Kami</a></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
