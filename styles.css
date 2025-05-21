@@ -1,0 +1,127 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background: #fafafa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    flex-direction: column;
+}
+
+/* Unique font style for the title "DailyMova" with subtle black gradient text */
+.title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    background: linear-gradient(90deg, #000000 0%, #333333 50%, #000000 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    user-select: none;
+}
+.subtitle {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 3rem;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+/* Container */
+#container {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: #444;
+}
+input[type="text"], select {
+    padding: 0.55rem 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: white;
+    color: #222;
+}
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #777;
+    box-shadow: 0 0 8px #bbb;
+}
+button {
+    background-color: #222;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 0.85rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+button:hover {
+    background-color: #444;
+}
+
+/* Cream paper note container with initial hidden state */
+#motivationNote {
+    margin-top: 2rem;
+    background: #f9f3e7; /* cream color */
+    border: 1.5px solid #b2a58d; /* subtle outline */
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow:
+        0 6px 12px rgba(0,0,0,0.07),
+        inset 0 4px 8px rgba(255,255,255,0.85);
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #5b4b3b; /* warm brown text */
+    white-space: pre-line;
+    user-select: text;
+    display: none;
+    text-align: center;
+
+    /* For animation */
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+/* Fade-in and slide-up animation */
+#motivationNote.show {
+    display: block;
+    animation: fadeSlideUp 0.6s forwards;
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
