@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DailyMova</title>
+<style>
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: #fafafa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    flex-direction: column;
+  }
+
+  /* Unique font style for the title "DailyMova" with subtle black gradient text */
+  .title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    background: linear-gradient(90deg, #000000 0%, #333333 50%, #000000 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    user-select: none;
+  }
+  .subtitle {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 3rem;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  /* Container */
+  #container {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* Form styles */
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: #444;
+  }
+  input[type="text"], select {
+    padding: 0.55rem 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: white;
+    color: #222;
+  }
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #777;
+    box-shadow: 0 0 8px #bbb;
+  }
+  button {
+    background-color: #222;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 0.85rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+  button:hover {
+    background-color: #444;
+  }
+
+  /* Cream paper note container with initial hidden state */
+  #motivationNote {
+    margin-top: 2rem;
+    background: #f9f3e7; /* cream color */
+    border: 1.5px solid #b2a58d; /* subtle outline */
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow:
+      0 6px 12px rgba(0,0,0,0.07),
+      inset 0 4px 8px rgba(255,255,255,0.85);
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #5b4b3b; /* warm brown text */
+    white-space: pre-line;
+    user-select: text;
+    display: none;
+    text-align: center;
+
+    /* For animation */
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  /* Fade-in and slide-up animation */
+  #motivationNote.show {
+    display: block;
+    animation: fadeSlideUp 0.6s forwards;
+  }
+
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+  <h1 class="title">DailyMova</h1>
+  <p class="subtitle">your daily dose of motivation</p>
+
+  <div id="container">
+    <form id="movaForm" aria-describedby="form-desc" novalidate>
+      <div id="form-desc" class="sr-only">Masukkan nama dan pilih perasaanmu untuk mendapatkan motivasi harian</div>
+      <label for="nameInput">Nama Anda</label>
+      <input type="text" id="nameInput" placeholder="tulis nama mu donk" required autocomplete="off" aria-required="true" />
+
+      <label for="feelingInput">Bagaimana perasaanmu hari ini?</label>
+      <select id="feelingInput" required aria-required="true" >
+        <option value="" disabled selected>Pilih perasaanmu</option>
+        <option value="semangat">Semangat</option>
+        <option value="capek">Capek</option>
+        <option value="sedih">Sedih</option>
+        <option value="grogi">Grogi</option>
+        <option value="marah">Marah</option>
+      </select>
+
+      <button type="submit" aria-label="Klik untuk jadi versi terbaikmu">Klik untuk jadi versi terbaikmu</button>
+    </form>
+
+    <div id="motivationNote" role="region" aria-live="polite" aria-label="Catatan motivasi harian"></div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('movaForm');
+    const motivationNote = document.getElementById('motivationNote');
+
+    const motivationMap = {
+      semangat: [
+        "Energi positifmu akan membuka banyak pintu keberhasilan!",
+        "Jaga semangatmu dan terus maju!",
+        "Kamu adalah api yang terus menyala dalam gelap.",
+        "Semangatmu hari ini bisa jadi cahaya buat orang lain. Teruskan langkahmu, karena kamu sedang menginspirasi tanpa sadar.",
+        "Kamu udah sejauh ini bukan karena kebetulan. Tapi karena kamu gak pernah menyerah.",
+        "Jangan ragukan kemampuanmu. Kamu udah buktiin bahwa kamu bisa melampaui hal-hal yang dulu kamu takutin.",
+        "Kamu boleh bangga sama dirimu hari ini. Karena gak semua orang bisa terus maju seperti kamu.",
+        "Terus melangkah ya, bahkan saat gak ada yang tepuk tangan. Karena semangatmu bukan buat pengakuan, tapi karena kamu tahu tujuanmu.",
+        "Kamu adalah bukti bahwa usaha yang konsisten bisa menumbuhkan harapan.",
+        "Saat orang lain ragu, kamu justru jalan terus. Dan itu yang bikin kamu luar biasa."
+      ],
+      capek: [
+        "Istirahatlah sejenak, kamu pantas mendapatkannya.",
+        "Tenang, kekuatanmu akan kembali setelah beristirahat.",
+        "Hari esok adalah kesempatan baru."
+      ],
+      sedih: [
+        "Sakit ini akan berubah menjadi kekuatan.",
+        "Tidak apa-apa untuk bersedih, itu bagian dari proses.",
+        "Hari yang cerah akan datang setelah hujan reda."
+      ],
+      grogi: [
+        "Percaya diri itu kuncinya, kamu pasti bisa!",
+        "Grogi adalah tanda kamu peduli, gunakan itu sebagai energi positif.",
+        "Tarik napas, dan tunjukkan versi terbaikmu."
+      ],
+      marah: [
+        "Beri waktu untuk tenang, lalu ambil tindakan bijak.",
+        "Kemarahanmu adalah kekuatan, utamakan kendali.",
+        "Biarkan emosimu mengalir menjadi motivasi."
+      ]
+    };
+
+    function getRandomMotivation(feeling) {
+      const phrases = motivationMap[feeling];
+      if (!phrases) return "Setiap hari adalah awal yang baru.";
+      const index = Math.floor(Math.random() * phrases.length);
+      return phrases[index];
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value.trim();
+      const feeling = document.getElementById('feelingInput').value;
+      if (!name || !feeling) {
+        alert("Harap masukkan nama dan pilih perasaanmu.");
+        return;
+      }
+      const motivation = getRandomMotivation(feeling);
+      motivationNote.textContent = `Hai ${name}!\n\n${motivation}`;
+      motivationNote.classList.remove('show'); // reset animation
+      void motivationNote.offsetWidth; // trigger reflow for restart animation
+      motivationNote.classList.add('show'); // add animation class
+    });
+  });
+</script>
+</body>
+</html>
+
